@@ -1,0 +1,65 @@
+{% extends "users/base.html" %} {% block title %} Register Page {% endblock title%} {% block content %}
+
+<div>
+  <h3>Create Account</h3>
+</div>
+<div>
+  <form method="POST">
+    {% csrf_token %} {% if form.errors %}
+    <div>
+      <div id="form_errors">
+        {% for key, value in form.errors.items %}
+        <strong>{{ value }}</strong>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+    <div>
+      <div>
+        <label>First Name</label>
+        {{ form.first_name }}
+      </div>
+
+      <div>
+        <label>Last Name</label>
+        {{ form.last_name }}
+      </div>
+    </div>
+    <div>
+      <div>
+        <div>
+          <label>Username</label>
+          {{ form.username }}
+        </div>
+      </div>
+      <div>
+        <div>
+          <label class="small mb-1">Email</label>
+          {{ form.email }}
+        </div>
+      </div>
+    </div>
+    <div>
+      <div>
+        <div>
+          <label>Password</label>
+          {{ form.password1 }} {{ form.errors.password }}
+        </div>
+      </div>
+      <div c>
+        <div>
+          <label>Confirm Password</label>
+          {{ form.password2 }}
+        </div>
+      </div>
+    </div>
+    <div><button type="submit">Sign Up</button><br /><br /></div>
+  </form>
+</div>
+<div>
+  <div>
+    <a href="{% url 'login' %}">Have an account? Go to Sign in</a>
+  </div>
+</div>
+
+{% endblock content %}
