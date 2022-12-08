@@ -1,3 +1,3 @@
 # mysite 
-eto pala password sa admin
+eto pala password sa admin: 
 admin123456
