@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm 
-
+from .models import User
 
 class RegisterForm(UserCreationForm):
     first_name = forms.CharField(max_length=100,
@@ -38,11 +38,37 @@ class RegisterForm(UserCreationForm):
                                                                   'data-toggle': 'password',
                                                                   'id': 'password',
                                                                   }))
+    department = forms.CharField(max_length=100,
+                                 required=True,
+                                 widget=forms.TextInput(attrs={'placeholder': 'Department',
+                                                               'class': 'form-control',
+                                                               }))
+                                                               
 
+    def __init__(self, *args, **kwargs):
+        super(RegisterForm, self).__init__(*args, **kwargs)
+        self.fields['department'].required = "Department"
+        self.fields['email'].required = "Email"
+        self.fields['first_name'].label = "First Name"
+        self.fields['last_name'].label = "Last Name"
+        self.fields['password1'].label = "Password"
+        self.fields['password2'].label = "Confirm Password"
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'username', 'email', 'password1', 'password2']
+        fields = ['first_name', 'last_name', 'username', 'email', 'department', 'password1', 'password2']
 
+    def clean_department(self):
+        department = self.cleaned_data.get('department')
+        if not department:
+            raise forms.ValidationError("department is required")
+        return department
+
+    def save(self, commit=True):
+        user = super(UserCreationForm, self).save(commit=False)
+        user.role = "faculty"
+        if commit:
+            user.save()
+        return user
 
 class LoginForm(AuthenticationForm):
     username = forms.CharField(max_length=100,

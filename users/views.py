@@ -2,14 +2,19 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.views import LoginView
 from .forms import RegisterForm, LoginForm
 from django.contrib import messages
-from django.views import View
+from users.models import User
+from django.views.generic import CreateView
+
+from django.conf import settings
+User = settings.AUTH_USER_MODEL
 # Create your views here.
 def home(request):
     return render(request, 'users/home.html')
 
 
 
-class RegisterView(View):
+class RegisterView(CreateView):
+    model = User
     form_class = RegisterForm
     initial = {'key': 'value'}
     template_name = 'users/register.html'

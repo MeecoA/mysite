@@ -19,6 +19,9 @@ from django.contrib.auth import views as auth_views
 from users.views import CustomLoginView  
 from users.forms import LoginForm
 
+from users.views import *
+from django.conf import settings
+
 urlpatterns = [
     path('polls/', include('polls.urls')),
     path('admin/', admin.site.urls),
